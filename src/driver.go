@@ -15,6 +15,10 @@ type Appointment struct {
     endTime time.Time
 }
 
+type Pair struct {
+    a, b interface{}
+}
+
 func (appointment *Appointment) printTimes(){
     print := fmt.Println
     format := "2006-01-02 15:04:05"
@@ -23,17 +27,17 @@ func (appointment *Appointment) printTimes(){
 
 func isConflict (a1, a2 *Appointment) bool{
     value := false
-    maxStart := a1.startTime
+    maxStart := a2.startTime
     minEnd := a1.endTime
     
-    if a1.startTime.Before(a2.startTime){
-        maxStart = a2.startTime
+    if a2.startTime.Before(a1.startTime){
+        maxStart = a1.startTime
     }
     if a1.endTime.After(a2.endTime){
         minEnd = a2.endTime
     }
     
-    if minEnd.Before(maxStart){
+    if minEnd.After(maxStart){
         value = true
     }
     
@@ -80,8 +84,20 @@ func csv2apptlist(fileName string) []Appointment{
 }
 
 func main(){
-    apptList := csv2apptlist("appointments.csv")
-    for _, e := range apptList{
-        e.printTimes()
-    }
+    results := []Pair{}
+    apptList := csv2apptlist("appointments.csv") //O(n)
+    for i, e := range apptList{
+        for j := 0; j < i; j++ {
+            a1 := e
+            a2 := apptList[j]
+            if(isConflict(&a1, &a2)){
+                newPair := Pair{
+                    a1,
+                    a2,
+                }
+                results = append(results, newPair)
+            }
+        } 
+    } // O(n^2)
+    fmt.Println(len(results))
 }
