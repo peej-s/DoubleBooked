@@ -83,7 +83,7 @@ func csv2apptlist(fileName string) []Appointment{
     return values
 }
 
-func main(){
+func csv2apptlist(fileName string) []Pair{
     results := []Pair{}
     apptList := csv2apptlist("appointments.csv") //O(n)
     for i, e := range apptList{
@@ -99,5 +99,11 @@ func main(){
             }
         } 
     } // O(n^2)
-    fmt.Println(len(results))
+    return results
 }
+
+
+func main(){
+    
+}
+	
