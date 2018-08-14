@@ -44,7 +44,7 @@ func exportPairs() {
         // Write to file
         writer := bufio.NewWriter(file)
         defer writer.Flush()
-        writer.WriteString("First Appointment, Second Appointment\n")
+        writer.WriteString("First Appointment,Second Appointment\n")
 
         for _, e := range results {
                 a1 := e.a.(appointment.Appointment)
